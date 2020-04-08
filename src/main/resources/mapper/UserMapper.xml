@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- mapper:根标签，namespace：命名空间，也就是DAO类 -->
+<mapper namespace="com.limengxiang.basics.dao.UserDAO">
+    <!-- 插入数据 -->
+    <insert id="insert" parameterType="com.limengxiang.basics.model.UserModel">
+        INSERT INTO users (username,mobile) VALUES (#{username}, #{mobile})
+    </insert>
+    <!-- 按主键ID查询 -->
+    <select id="selectOne" resultType="com.limengxiang.basics.model.UserModel">
+        SELECT * FROM ${tableName} WHERE id = #{id}
+    </select>
+    <!-- 动态SQL，当参数非空时模糊匹配 -->
+    <select id="fuzzySearch" resultType="com.limengxiang.basics.model.UserModel">
+        SELECT * FROM users
+        <!-- 不用担心多余的AND -->
+        <where>
+            <if test="username!=null and username.trim()!=''">AND username LIKE #{username}</if>
+            <if test="mobile!=null and mobile.trim()!=''">AND mobile LIKE #{mobile}</if>
+        </where>
+    </select>
+    <!-- 动态SQL，类似switch语句 -->
+    <select id="searchByUsernameOrMobile" resultType="com.limengxiang.basics.model.UserModel">
+        SELECT * FROM users
+        <where>
+            <!-- 不用担心多余的AND -->
+            <choose>
+                <when test="username!=null and username.trim()!=''">
+                    AND username LIKE #{username}
+                </when>
+                <when test="mobile!=null and mobile.trim()!=''">
+                    AND mobile LIKE #{mobile}
+                </when>
+            </choose>
+        </where>
+    </select>
+</mapper>
