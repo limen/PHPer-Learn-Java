@@ -17,6 +17,7 @@ public class HelloController {
     /**
      * 框架自动获取请求参数传给方法
      * name参数必传
+     * RequestMapping是路由映射注解，可以指定请求路径和请求方法
      *
      * @param name
      * @return
