@@ -8,12 +8,16 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
+/**
+ * RestController注解告知框架这是一个提供Restful API的组件
+ */
 @RestController
 public class HelloController {
 
     /**
      * 框架自动获取请求参数传给方法
      * name参数必传
+     *
      * @param name
      * @return
      */
@@ -25,6 +29,7 @@ public class HelloController {
     /**
      * 手动从request对象中获取参数
      * 框架自动解决依赖，注入request对象
+     *
      * @param request
      * @return
      */
