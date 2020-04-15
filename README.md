@@ -1,10 +1,15 @@
 # PHPer learn Java
 
 # 概述
+
 本文面向需要学习Java的PHP开发者。
+
 本文从一个helloworld程序开始，紧接着一个数据库操作demo（这有别于从易到难的风格），然后回归基础，难度逐步加大。把数据库操作demo放在前面，是希望大家快速对一个Java项目形成感性的认识，请不要深究技术细节。
+
 难度最大的部分在于多线程和线程安全，这对很多PHP开发者来说是全新的领域。
+
 最后部分讲解如何用SpingBoot实现RESTful API。
+
 限于作者水平有限，不准确之处在所难免，敬请指正。
 
 
@@ -53,6 +58,7 @@ main 方法是Java类的入口方法，方法名称和格式是约定俗成的�
 
 # 难度提升
 这一节用Java做点有难度的事：操作数据库。这一节的目标是对Java项目建立感性的认识。
+
 相关知识点
 
 - 依赖管理
@@ -60,8 +66,11 @@ main 方法是Java类的入口方法，方法名称和格式是约定俗成的�
 - XML
 
 maven是Java项目依赖管理工具，类似于PHP的composer。
+
 maven使用pom.xml配置依赖，类似于composer.json。
+
 引入两个依赖：mybatis和mysql connector，pom.xml文件内容如下
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
@@ -110,6 +119,7 @@ maven使用pom.xml配置依赖，类似于composer.json。
 
 
 项目的目录结构如下
+
 ![选区_081.png](https://cdn.nlark.com/yuque/0/2020/png/514450/1586431803443-3b9b8245-f746-4fa6-a17f-38e7872cdd12.png#align=left&display=inline&height=536&name=%E9%80%89%E5%8C%BA_081.png&originHeight=536&originWidth=394&size=26865&status=done&style=none&width=394)
 
 
@@ -131,6 +141,7 @@ CREATE TABLE `users` (
 
 
 UserDAO.java
+
 ```java
 package com.limengxiang.basics.dao;
 
@@ -155,6 +166,7 @@ public interface UserDAO {
 
 
 UserModel.java
+
 ```java
 package com.limengxiang.basics.model;
 
@@ -215,8 +227,11 @@ UserMapper.xml
 
 
 以上三个文件帮助我们定义好了CRUD的业务逻辑。仔细看一下文件内容，试着发现一些规律。
+
 在开始操作数据库之前，还需要配置连接信息，并加载UserMapper.xml文件。
+
 mybatis-config.xml 
+
 ```xml
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE configuration
@@ -306,6 +321,7 @@ public class MybatisDemo {
 
 
 运行结果如下，重点关注打印出的SQL，和UserMapper.xml定义的SQL进行对比，试着发现一些规律。
+
 ```basic
 19:45:14.943 [main] DEBUG org.apache.ibatis.logging.LogFactory - Logging initialized using 'class org.apache.ibatis.logging.slf4j.Slf4jImpl' adapter.
 19:45:15.094 [main] DEBUG org.apache.ibatis.datasource.pooled.PooledDataSource - PooledDataSource forcefully closed/removed all connections.
@@ -350,12 +366,19 @@ Search by mobile:[]
 
 
 # 回归基础
+
 我们继续从基础开始学习，打好基础才能走得更远。
+
 ## 静态与动态，强类型与弱类型
+
 Java是静态语言，PHP是动态语言；Java是强类型语言，PHP是弱类型语言。
+
 静态的含义是在编译期就能确定变量的数据类型，动态则不能。这也属于强弱类型的范畴。
+
 Java语言在声明变量时需要指定数据类型，这确保了“静态”，PHP则相反。
+
 ## 数据类型
+
 基本数据类型
 
 - short
@@ -379,15 +402,18 @@ Java语言在声明变量时需要指定数据类型，这确保了“静态”�
 - Boolean：boolean
 
 包装器类封装了基本类型常用的一些API，例如将字符串解析为整数。
+
 除基本数据类型外，一切皆对象！
 
 
 **思考**
 
 - PHP有哪些数据类型？跟Java对比有什么区别？
-## 
+
 ## 类与继承
+
 PHP和Java都是面向对象的编程语言。
+
 PHP的面向对象借鉴了Java的设计，例如
 
 - 继承关键词：extends，implements
@@ -398,12 +424,17 @@ PHP的面向对象借鉴了Java的设计，例如
 
 
 ## 包与命名空间
-在Java文件的顶部可以看到 package ***，这声明了Java类所属的包，和PHP的命名空间（namespace）类似。
+
+在Java文件的顶部可以看到 package ***
+这声明了Java类所属的包，和PHP的命名空间（namespace）类似。
+
 Java对类的命名要求更严格一些，例如类名（public类）必须和文件名保持一致。
 
 
 # 难度Level 2
+
 ## 方法签名
+
 先看一个例子
 
 
@@ -451,7 +482,9 @@ Hello old man
 
 
 可以看到HelloWorld类定义了两个public void hello方法，这在PHP中是不允许的。
+
 这涉及到“方法签名”的概念，在Java类中，相同名称但签名不同的方法是可以共存的。
+
 方法名和方法参数类型列表构成了一个方法的签名，上面例子中两个hello方法的签名分别是
 
 - hello(String)
@@ -466,7 +499,9 @@ Hello old man
 
 
 ## 内部类
+
 看以下栗子。
+
 咦！HelloWorld类里面怎么多了一个Person类！不要惊慌，这就是接下来要说的“内部类”。
 ```java
 public class HelloWorld {
@@ -523,8 +558,10 @@ Hello, Tom, 25 years old
 
 ## 注解与反射
 注解的英文名称是 annotation，顾名思义，就是给代码加个标记。
+
 举个例子，当你收到一封秘密信件，信封上写着“请务必亲手交给xxx”，你就知道了，这个信件是要转交给别人的，自己不能打开。注解的作用大致也是如此。
 框架管理一个对象时，会检查对象的注解，例如上文中的UserDAO类，被@Mapper注解修饰，框架就知道这里定义的是CRUD方法，需要去xml配置文件中查找对应的SQL。
+
 注解的检查工作是通过“反射”机制实现的，PHP也有反射机制，这里不再赘述。
 
 
@@ -585,6 +622,7 @@ Thread #8
 
 
 在main方法中启动10个MyThread线程。
+
 从输出结果可以看出，多个线程的执行顺序是不固定的，这依赖于系统调度。
 
 
@@ -597,6 +635,7 @@ Thread #8
 
 ## 线程安全
 想象一下，大家在排队用洗衣机时，如果有人不守规则，把脏衣服混到别人正在洗的衣服里，那最后洗出来的衣服肯定是不干净的。用专业术语来说，就是产生了“脏数据”。
+
 上代码
 ```java
 import java.util.ArrayList;
@@ -676,7 +715,9 @@ Counter final:149
 
 ## 如何防止并发问题
 PHP开发者也经常需要处理并发问题，但处理的往往是“进程级”的并发。
+
 下面演示如何用Java语言的锁机制防止线程并发问题。
+
 ```java
 class ThreadDemo1 {
 
@@ -723,12 +764,15 @@ class ThreadDemo1 {
 
 
 ReentrantLock对象的lock方法是阻塞的，当别的线程已经抢占了锁资源时，当前线程进入等待状态。
+
 lock确保同一时间只能有一个线程对计数器加1，这就避免了并发写入的问题，确保计数器的值等于线程数量。
 
 
 # 实践
 ## SpringBoot上手
+
 使用Java做web开发，始终绕不开Spring框架。不像PHP有那么多web框架，像Laravel、Yii、ThinkPHP等等，Java开发者好像很容易达成一致，学Spring就对了。这也和Spring的本身就足够经典有关。
+
 SpringBoot是Spring的增强版，降低了初学者学习Srping的成本。Spring本身需要的配置很多，SpringBoot可以认为是配置好的Spring。下面就开始上手吧。
 
 
@@ -859,6 +903,7 @@ public class HelloController {
 
 
 创建应用配置文件 application.yml，我们使用了mybatis，需要在这里配置连接信息。
+
 这里可以随便写，只要有这几项就OK。
 ```yaml
 spring:
@@ -886,10 +931,12 @@ spring:
 
 
 用浏览器访问 [http://127.0.0.1:8080/hello?name=Tom](http://127.0.0.1:8080/hello?name=Tom)
+
 看到“Hello, Tom”就说明成功了。
 
 
 用curl模拟POST请求，curl -X POST -d 'name=Tom&age=22' 'http://127.0.0.1:8080/params'，返回
+
 ```
 {"name":["Tom"],"age":["22"]}
 ```
@@ -903,7 +950,9 @@ spring:
 
 ## 单元测试
 PHP和Java都需要写单元测试，这是个好习惯。我们以UserDAO为例。
+
 打开UserDAO.java，光标定位到类名，按下Alt + Enter键，在弹出的选项中选择“Create test”，勾选需要测试的方法。
+
 ![image.png](https://cdn.nlark.com/yuque/0/2020/png/514450/1586764551457-046fded5-1646-4716-b744-cca0e1ed3e4e.png#align=left&display=inline&height=304&name=image.png&originHeight=607&originWidth=994&size=77812&status=done&style=none&width=497)
 
 
@@ -970,6 +1019,7 @@ class UserDAOTest {
 
 
 运行单元测试
+
 ![image.png](https://cdn.nlark.com/yuque/0/2020/png/514450/1586764720930-76c4bb0b-3255-4c88-a531-da6bd7f05a31.png#align=left&display=inline&height=138&name=image.png&originHeight=276&originWidth=978&size=45298&status=done&style=none&width=489)
 
 
