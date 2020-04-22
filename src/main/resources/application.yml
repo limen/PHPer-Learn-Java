@@ -4,3 +4,6 @@ spring:
     username: root
     password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
+  data:
+    mongodb:
+      uri: mongodb://portal:L9jD7srDBdS7Nfob@172.168.0.92:27017/portal
