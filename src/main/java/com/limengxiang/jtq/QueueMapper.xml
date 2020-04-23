@@ -7,7 +7,7 @@
         INSERT INTO jtq_queue (msg_id,body,schedule,status,receive_at)
         VALUES (#{msgId},#{body},#{schedule},#{status},#{receiveAt})
     </insert>
-    <select id="get" resultType="com.limengxiang.jtq.message.DefaultMessage">
+    <select id="get" resultType="com.limengxiang.jtq.message.DefaultMessage" resultMap="queueMap">
         SELECT * FROM jtq_queue WHERE msg_id = #{id}
     </select>
     <update id="update" parameterType="com.limengxiang.jtq.message.DefaultMessage">
@@ -18,4 +18,9 @@
         </trim>
         WHERE msg_id = #{msgId}
     </update>
+    <resultMap id="queueMap" type="com.limengxiang.jtq.message.DefaultMessage" autoMapping="true">
+        <result column="msg_id" property="msgId"/>
+        <result column="receive_at" property="receiveAt"/>
+        <result column="consume_at" property="consumeAt"/>
+    </resultMap>
 </mapper>
