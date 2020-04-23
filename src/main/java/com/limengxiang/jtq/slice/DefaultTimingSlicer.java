@@ -1,17 +1,19 @@
 package com.limengxiang.jtq.slice;
 
+import com.limengxiang.jtq.TimingQueueInterface;
 import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.Date;
 
 /**
- * Redis portable
+ * 基于 Redis LIST 实现分片
  */
 public class DefaultTimingSlicer implements TimingSlicerInterface {
 
     private RedisTemplate<String, String> redisTemplate;
-    private SliceStrategy sliceStrategy;
+    private SliceStrategyInterface sliceStrategy;
+    private TimingQueueInterface timingQueue;
 
     public DefaultTimingSlicer() {
 
@@ -22,7 +24,7 @@ public class DefaultTimingSlicer implements TimingSlicerInterface {
         this.sliceStrategy = new DefaultSliceStrategy();
     }
 
-    public DefaultTimingSlicer(RedisTemplate<String, String> template, SliceStrategy strategy) {
+    public DefaultTimingSlicer(RedisTemplate<String, String> template, SliceStrategyInterface strategy) {
         this.redisTemplate = template;
         this.sliceStrategy = strategy;
     }
@@ -30,29 +32,37 @@ public class DefaultTimingSlicer implements TimingSlicerInterface {
     @Override
     public Long push(String id, Date timing) {
         ListOperations<String, String> ops = redisTemplate.opsForList();
-        String sliceKey = sliceStrategy.key(timing);
-        return ops.leftPush(sliceKey, id);
-//        return redisTemplate.opsForList().leftPush(sliceStrategy.key(timing), id);
+        return ops.leftPush(getSliceKey(timing), id);
     }
 
     @Override
     public String pull(Date t) {
-        return redisTemplate.opsForList().rightPop(sliceStrategy.key(t));
-    }
-
-    public RedisTemplate<String, String> getRedisTemplate() {
-        return redisTemplate;
+        return redisTemplate.opsForList().rightPop(getSliceKey(t));
     }
 
     public void setRedisTemplate(RedisTemplate<String, String> redisTemplate) {
         this.redisTemplate = redisTemplate;
     }
 
-    public SliceStrategy getSliceStrategy() {
+    public SliceStrategyInterface getSliceStrategy() {
         return sliceStrategy;
     }
 
-    public void setSliceStrategy(SliceStrategy sliceStrategy) {
+    public void setSliceStrategy(SliceStrategyInterface sliceStrategy) {
         this.sliceStrategy = sliceStrategy;
+    }
+
+    @Override
+    public TimingQueueInterface getTimingQueue() {
+        return timingQueue;
+    }
+
+    @Override
+    public void setTimingQueue(TimingQueueInterface timingQueue) {
+        this.timingQueue = timingQueue;
+    }
+
+    private String getSliceKey(Date t) {
+        return this.getTimingQueue().name() + ":" + sliceStrategy.key(t);
     }
 }

@@ -4,9 +4,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * 默认按分钟分片
+ * 按分钟分片
  */
-public class DefaultSliceStrategy implements SliceStrategy {
+public class DefaultSliceStrategy implements SliceStrategyInterface {
 
     private SimpleDateFormat df;
 
@@ -16,6 +16,6 @@ public class DefaultSliceStrategy implements SliceStrategy {
 
     @Override
     public String key(Date t) {
-        return "jtq_slice_" + df.format(t);
+        return df.format(t);
     }
 }

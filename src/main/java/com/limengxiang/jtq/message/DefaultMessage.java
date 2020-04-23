@@ -4,21 +4,21 @@ import java.util.Date;
 
 public class DefaultMessage implements MessageInterface {
 
-    private String id;
+    private String msgId;
     private String body;
-    private int status;
+    private Integer status;
     private Date schedule;
     private Date receiveAt;
-    private Date takeawayAt;
+    private Date consumeAt;
 
     @Override
     public void setMsgId(String id) {
-        this.id = id;
+        this.msgId = id;
     }
 
     @Override
     public String getMsgId() {
-        return this.id;
+        return this.msgId;
     }
 
     @Override
@@ -32,12 +32,12 @@ public class DefaultMessage implements MessageInterface {
     }
 
     @Override
-    public void setStatus(int status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 
     @Override
-    public int getStatus() {
+    public Integer getStatus() {
         return this.status;
     }
 
@@ -62,13 +62,13 @@ public class DefaultMessage implements MessageInterface {
     }
 
     @Override
-    public void setTakeawayAt(Date t) {
-        takeawayAt = t;
+    public void setConsumeAt(Date t) {
+        consumeAt = t;
     }
 
     @Override
-    public Date getTakeawayAt() {
-        return takeawayAt;
+    public Date getConsumeAt() {
+        return consumeAt;
     }
 
 }

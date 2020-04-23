@@ -2,7 +2,10 @@ package com.limengxiang.jtq.slice;
 
 import java.util.Date;
 
-public interface SliceStrategy {
+/**
+ * 基于投递时间的分片策略
+ */
+public interface SliceStrategyInterface {
 
     public String key(Date t);
 

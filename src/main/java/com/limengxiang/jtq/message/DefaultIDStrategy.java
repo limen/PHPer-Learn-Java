@@ -5,7 +5,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * TODO 唯一ID生成算法
  */
-public class DefaultIDStrategy implements IDStrategy {
+public class DefaultIDStrategy implements IDStrategyInterface {
 
     private AtomicInteger counter;
 

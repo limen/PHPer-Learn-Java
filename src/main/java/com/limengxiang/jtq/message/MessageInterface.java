@@ -4,7 +4,7 @@ import java.util.Date;
 
 public interface MessageInterface {
 
-    void setMsgId(String id);
+    public void setMsgId(String id);
 
     public String getMsgId();
 
@@ -12,20 +12,20 @@ public interface MessageInterface {
 
     public String getBody();
 
-    void setStatus(int status);
+    public void setStatus(Integer status);
 
-    public int getStatus();
+    public Integer getStatus();
 
     public void setSchedule(Date schedule);
 
     public Date getSchedule();
 
-    void setReceiveAt(Date t);
+    public void setReceiveAt(Date t);
 
     public Date getReceiveAt();
 
-    void setTakeawayAt(Date t);
+    public void setConsumeAt(Date t);
 
-    public Date getTakeawayAt();
+    public Date getConsumeAt();
 
 }

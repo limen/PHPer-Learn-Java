@@ -2,12 +2,20 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.limengxiang.jtq.queue.DefaultQueue">
-    <insert id="push" parameterType="com.limengxiang.jtq.message.DefaultMessage">
-        INSERT INTO jtq_queue (msg_id,body,schedule,status,receive_at,takeaway_at)
-        VALUES (#{msgId},#{body},#{schedule},#{status},#{receiveAt},#{takeawayAt})
+<mapper namespace="com.limengxiang.jtq.queue.DefaultQueueStorage">
+    <insert id="add" parameterType="com.limengxiang.jtq.message.DefaultMessage">
+        INSERT INTO jtq_queue (msg_id,body,schedule,status,receive_at)
+        VALUES (#{msgId},#{body},#{schedule},#{status},#{receiveAt})
     </insert>
     <select id="get" resultType="com.limengxiang.jtq.message.DefaultMessage">
         SELECT * FROM jtq_queue WHERE msg_id = #{id}
     </select>
+    <update id="update" parameterType="com.limengxiang.jtq.message.DefaultMessage">
+        UPDATE jtq_queue
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="status!=null">status = #{status},</if>
+            <if test="consumeAt!=null">consume_at = #{consumeAt},</if>
+        </trim>
+        WHERE msg_id = #{msgId}
+    </update>
 </mapper>

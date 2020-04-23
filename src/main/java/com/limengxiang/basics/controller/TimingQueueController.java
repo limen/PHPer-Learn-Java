@@ -1,9 +1,9 @@
 package com.limengxiang.basics.controller;
 
-import com.limengxiang.basics.model.MessageModel;
 import com.limengxiang.jtq.TimingQueue;
 import com.limengxiang.jtq.message.DefaultIDStrategy;
-import com.limengxiang.jtq.queue.DefaultQueue;
+import com.limengxiang.jtq.message.DefaultMessage;
+import com.limengxiang.jtq.queue.DefaultQueueStorage;
 import com.limengxiang.jtq.slice.DefaultTimingSlicer;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -34,10 +34,10 @@ public class TimingQueueController {
     public TimingQueue getTimingQueue() throws IOException {
         InputStream stream = Resources.getResourceAsStream("mybatis-config.xml");
         SqlSession sqlSession = new SqlSessionFactoryBuilder().build(stream).openSession(true);
-        DefaultQueue queueDAO = sqlSession.getMapper(DefaultQueue.class);
+        DefaultQueueStorage queueDAO = sqlSession.getMapper(DefaultQueueStorage.class);
 
-        timingQueue = new TimingQueue();
-        timingQueue.setQueue(queueDAO);
+        timingQueue = new TimingQueue("security_remind");
+        timingQueue.setQueueStorage(queueDAO);
         timingQueue.setIdStrategy(new DefaultIDStrategy());
         timingQueue.setSlicer(new DefaultTimingSlicer(redisTemplate));
 
@@ -46,7 +46,7 @@ public class TimingQueueController {
 
     @RequestMapping(value = "/tq-push")
     public String push(@RequestParam("body") String body) {
-        MessageModel msg = new MessageModel();
+        DefaultMessage msg = new DefaultMessage();
         msg.setBody(body);
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.MINUTE, 10);

@@ -6,6 +6,8 @@ import java.util.Date;
 
 public interface TimingQueueInterface {
 
+    public String name();
+
     public String push(MessageInterface msg);
 
     public MessageInterface pull();
@@ -13,5 +15,7 @@ public interface TimingQueueInterface {
     public MessageInterface pull(Date t);
 
     public MessageInterface poll(String id);
+
+    public Integer consumed(MessageInterface msg);
 
 }
