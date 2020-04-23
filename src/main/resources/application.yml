@@ -7,3 +7,6 @@ spring:
   data:
     mongodb:
       uri: mongodb://portal:L9jD7srDBdS7Nfob@172.168.0.92:27017/portal
+  redis:
+    host: 127.0.0.1
+    port: 6379

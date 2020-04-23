@@ -6,7 +6,7 @@ import java.util.Date;
 
 public interface TimingQueueInterface {
 
-    public Integer push(MessageInterface msg);
+    public String push(MessageInterface msg);
 
     public MessageInterface pull();
 

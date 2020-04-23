@@ -8,13 +8,12 @@ public class MessageModel implements MessageInterface {
 
     private String id;
     private String body;
-    private int status;
+    private Integer status;
     private Date schedule;
     private Date receiveAt;
     private Date takeawayAt;
 
     public MessageModel() {
-        id = "hello,world!";
         status = 0;
         receiveAt = new Date();
     }
