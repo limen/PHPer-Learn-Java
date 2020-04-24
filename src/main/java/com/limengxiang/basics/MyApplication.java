@@ -1,5 +1,6 @@
 package com.limengxiang.basics;
 
+import com.limengxiang.xid.Generator;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
@@ -14,6 +15,7 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan("com.limengxiang.basics.controller")
 public class MyApplication {
     public static void main(String[] args) {
+        Generator.forMachine(110001);
         SpringApplication.run(MyApplication.class);
     }
 }

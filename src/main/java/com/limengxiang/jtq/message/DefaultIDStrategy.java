@@ -1,20 +1,19 @@
 package com.limengxiang.jtq.message;
 
-import java.util.concurrent.atomic.AtomicInteger;
+import com.limengxiang.xid.Generator;
 
 /**
  * TODO 唯一ID生成算法
  */
 public class DefaultIDStrategy implements IDStrategyInterface {
 
-    private AtomicInteger counter;
-
-    public DefaultIDStrategy() {
-        counter = new AtomicInteger();
-    }
-
     @Override
     public String id() {
-        return "" + counter.incrementAndGet();
+        try {
+            return Generator.gen().toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

@@ -3,7 +3,7 @@ package com.limengxiang.jtq.slice;
 import java.util.Date;
 
 /**
- * 基于投递时间的分片策略
+ * 基于时间的分片策略
  */
 public interface SliceStrategyInterface {
 

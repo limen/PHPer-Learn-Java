@@ -63,6 +63,6 @@ public class DefaultTimingSlicer implements TimingSlicerInterface {
     }
 
     private String getSliceKey(Date t) {
-        return this.getTimingQueue().name() + ":" + sliceStrategy.key(t);
+        return this.timingQueue.name() + ":slice:" + sliceStrategy.key(t);
     }
 }
